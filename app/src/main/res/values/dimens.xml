@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="material_size_h">400dp</dimen>
+    <dimen name="margin_card_view">16dp</dimen>
+    <dimen name="min_margin">8dp</dimen>
+    <dimen name="text_size1">35sp</dimen>
+</resources>
