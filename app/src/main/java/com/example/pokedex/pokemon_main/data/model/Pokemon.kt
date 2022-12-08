@@ -1,23 +1,24 @@
-package com.example.pokedex.pokemon_main.data
+package com.example.pokedex.pokemon_main.data.model
 
-import com.example.pokedex.pokemon_main.data.model.auxModel.Stats
+import com.example.pokedex.pokemon_main.data.model.auxModel.*
 import com.google.gson.annotations.SerializedName
 
-data class Pokemon(@SerializedName("abilities") var abilities: List<String>,
-                   @SerializedName("base_experience") var baseExperience : Int,
-                   @SerializedName("forms") var forms : List<String>,
-                   @SerializedName("game_indices") var gameIndices : List<String>,
-                   @SerializedName("height") var height : Int,
-                   @SerializedName("held_items") var heldItems : List<String>,
-                   @SerializedName("id") var id : Int,
-                   @SerializedName("is_default") var isDefault : Boolean,
-                   @SerializedName("location_area_encounters") var locationArea : String,
-                   @SerializedName("moves") var moves : List<String>,
-                   @SerializedName("name") var name : String,
-                   @SerializedName("order") var order: Int,
-                   @SerializedName("past_types") var pastTypes : List<String>,
-                   @SerializedName("species") var species : List<String>,
-                   @SerializedName("sprites") var sprites : List<String>,
-                   @SerializedName("stats") var stats: List<Stats>,
-                   @SerializedName("types") var types : List<String>,
-                   @SerializedName("weight") var weight : Int)
+data class Pokemon(@SerializedName("height") var height : Int=34,
+                   @SerializedName("id") var id : Int=1,
+                   @SerializedName("is_default") var isDefault : Boolean=false,
+                   @SerializedName("location_area_encounters") var locationArea : String="",
+                   @SerializedName("name") var name : String="Bullbasaur",
+                   @SerializedName("order") var order: Int=0,
+                   @SerializedName("species") var species : Results = Results(),
+                   @SerializedName("sprites") var sprites: Sprites= Sprites(
+                       frontImg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+                       backImg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+                       shinyImg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png"),
+                   @SerializedName("stats") var  stats: List<Stats> =
+                       listOf(Stats(baseStat = 30, effort = 0, Stat(name="Attack",url="")),
+                           Stats(baseStat = 25, effort = 0,Stat(name="Defense",url="")),
+                           Stats(baseStat = 12, effort = 0,Stat(name="Speed",url="")),
+                           Stats(baseStat = 98, effort = 0,Stat(name="Special Attack",url=""))),
+                   @SerializedName("types") var types : List<Types> = listOf<Types>
+                        (Types(slot = 1,Results(name="fire", url = ""))),
+                   @SerializedName("weight") var weight : Int=21)

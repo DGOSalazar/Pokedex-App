@@ -3,7 +3,7 @@ package com.example.pokedex.pokemon_main.ui.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.pokemon_main.data.Pokemon
+import com.example.pokedex.pokemon_main.data.model.Pokemon
 import com.example.pokedex.pokemon_main.data.model.PokemonList
 import com.example.pokedex.pokemon_main.domain.GetListPokemonUseCase
 import com.example.pokedex.pokemon_main.domain.GetPokemonByIdUseCase
@@ -18,12 +18,12 @@ class MainViewModel @Inject constructor(
      private val getPokemonByIdUseCase: GetPokemonByIdUseCase,
      private val getPokemonByNameUseCase: GetPokemonByNameUseCase
 ) : ViewModel() {
-    val pokemon = MutableLiveData<Pokemon>()
+    var pokemon = MutableLiveData<Pokemon>()
     val pokemonList = MutableLiveData<PokemonList>()
 
-    fun onCreate(id:Int){
+    fun onCreate(n:Int){
         viewModelScope.launch {
-            val resultMain = getPokemonByIdUseCase(id)
+            val resultMain = getPokemonByIdUseCase(n)
             pokemon.postValue(resultMain)
         }
     }
