@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="material_size_h">80dp</dimen>
+    <dimen name="material_size_h">400dp</dimen>
+    <dimen name="margin_card_view">16dp</dimen>
+    <dimen name="min_margin">8dp</dimen>
+    <dimen name="text_size1">25sp</dimen>
+    <dimen name="subtitle_stats">20dp</dimen>
+    <dimen name="regular_margin">18dp</dimen>
+    <dimen name="text_size2">25sp</dimen>
 </resources>

@@ -9,6 +9,6 @@ import retrofit2.http.Url
 interface PokeApiClient  {
     @GET
     suspend fun getPokemon(@Url url:String):Response<Pokemon>
-    //@GET
-    //suspend fun getPokemonList(): Response<PokemonList>
+    @GET
+    suspend fun getPokemonList(@Url url: String): Response<PokemonList>
 }

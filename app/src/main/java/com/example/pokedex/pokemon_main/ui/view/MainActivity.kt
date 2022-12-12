@@ -48,21 +48,21 @@ class MainActivity : AppCompatActivity() {
         }
         mBinding.listPokemon.setOnClickListener {
             launchFragment()
-            Toast.makeText(this,"hola",Toast.LENGTH_SHORT).show()
         }
     }
     private fun launchFragment() {
-      supportFragmentManager.commit {
-          setReorderingAllowed(true)
-          add<ListFragment>(R.id.fragment_id)
-      }
+        mBinding.fabCapture.hide()
+        mBinding.mcMain.isGone
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            addToBackStack("main")
+            add<ListFragment>(R.id.main_activity)
+        }
     }
-
     private fun changeImg() {
-        mountImg(pokemon.sprites.backImg)
+        //mountImg(pokemon.sprites.backImg)
         printPokemon()
     }
-
     private fun printPokemon() {
         mountImg(pokemon.sprites.frontImg)
         with(mBinding){
@@ -87,13 +87,15 @@ class MainActivity : AppCompatActivity() {
             mBinding.type1.text = pokemon.types[0].type.name
         }
     }
-
     private fun mountImg(url:String){
         Glide.with(this)
             .load(url)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
             .circleCrop()
-            .into(mBinding.ivPokemon)
+            .into(mBinding.mcMain)
+    }
+    private fun toastMessage(text : String){
+        Toast.makeText(this,text,Toast.LENGTH_SHORT).show()
     }
 }

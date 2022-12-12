@@ -1,17 +1,16 @@
 package com.example.pokedex.pokemon_main.data
 
 import com.example.pokedex.pokemon_main.data.model.Pokemon
+import com.example.pokedex.pokemon_main.data.model.PokemonList
 import com.example.pokedex.pokemon_main.data.network.PokeService
 import javax.inject.Inject
 
 class Repository @Inject constructor(
     private val api : PokeService
 ){
-    //suspend fun getPokemonList(): PokemonList{
-    //    var response = api.getPokeListService()
-    //    PokemonCache.pokemonList=response
-    //    return response
-    //}
+    suspend fun getPokemonList(n:Int): PokemonList {
+        return api.getPokeListService(n)
+    }
     suspend fun getPokemonById(n:Int): Pokemon {
         return api.getPokemonByIdService(n)
     }

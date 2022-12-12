@@ -7,5 +7,5 @@ import javax.inject.Inject
 class GetListPokemonUseCase @Inject constructor(
     private val repository: Repository
 ) {
-    //suspend operator fun invoke(): PokemonList = repository.getPokemonList()
+    suspend operator fun invoke(n:Int): PokemonList = repository.getPokemonList(n)
 }

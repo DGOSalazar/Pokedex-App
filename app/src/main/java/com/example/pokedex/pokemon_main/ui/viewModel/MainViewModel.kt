@@ -27,4 +27,10 @@ class MainViewModel @Inject constructor(
             pokemon.postValue(resultMain)
         }
     }
+    fun onShowList(n:Int=0){
+        viewModelScope.launch {
+            val resultList = getListPokemonUseCase(n)
+            pokemonList.postValue(resultList)
+        }
+    }
 }

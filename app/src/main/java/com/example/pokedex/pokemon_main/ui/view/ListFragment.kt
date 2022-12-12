@@ -5,38 +5,58 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.pokedex.R
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pokedex.databinding.FragmentListBinding
+import com.example.pokedex.pokemon_main.data.model.PokemonList
+import com.example.pokedex.pokemon_main.data.model.auxModel.Results
+import com.example.pokedex.pokemon_main.ui.view.adapter.ListFragAdapter
+import com.example.pokedex.pokemon_main.ui.view.adapter.OnClickAdapter
+import com.example.pokedex.pokemon_main.ui.viewModel.MainViewModel
 
 
-class ListFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
+class ListFragment : Fragment(),OnClickAdapter {
+
+    private lateinit var mAdapter : ListFragAdapter
+    private lateinit var mBinding: FragmentListBinding
+    private var mActivity : MainActivity? = null
+    var pokeList: PokemonList = PokemonList()
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        mainViewModel=ViewModelProvider(requireActivity())
+            .get(MainViewModel::class.java)
     }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        savedInstanceState: Bundle?): View? {
+        mBinding = FragmentListBinding.inflate(inflater,container,false)
+        return mBinding.root
     }
-
-    companion object {
-        private const val ARG_PARAM1 = "param1"
-        private const val ARG_PARAM2 = "param2"
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ListFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?){
+        super.onViewCreated(view, savedInstanceState)
+        mAdapter = ListFragAdapter(pokeList.results as MutableList<Results>
+            ,this)
+        mainViewModel.onShowList()
+        mainViewModel.pokemonList.observe(viewLifecycleOwner, Observer {
+            pokeList=it
+            setAdapter(pokeList.results)
+        })
+    }
+    private fun setAdapter(pokeList: List<Results>){
+        mAdapter.setData(pokeList)
+        mBinding.recycler.apply {
+            layoutManager=LinearLayoutManager(activity)
+            adapter=mAdapter
+        }
+    }
+    override fun onClick(){
+        mActivity?.onBackPressed()
+    }
+    override fun onDestroy(){
+        setHasOptionsMenu(false)
+        super.onDestroy()
     }
 }

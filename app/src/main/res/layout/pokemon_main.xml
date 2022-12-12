@@ -7,26 +7,17 @@
     android:layout_height="match_parent"
     tools:context=".pokemon_main.ui.view.MainActivity"
     android:background="@color/purple_700">
-<androidx.fragment.app.FragmentContainerView
-    android:id="@+id/fragment_id"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/mc_main"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/material_size_h"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
 
         <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/iv_pokemon"
+            android:id="@+id/mc_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/material_size_h"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_pokeball"
+            android:clickable="true"
             />
-    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/tv_name"
@@ -41,11 +32,13 @@
         android:layout_marginLeft="@dimen/min_margin"
         android:textSize="@dimen/text_size1"
         style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:gravity="center"
         />
     <TextView
         android:id="@+id/tv_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/tv_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/mc_main"
         tools:text="#001"
@@ -54,29 +47,39 @@
         android:layout_marginRight="@dimen/min_margin"
         android:textSize="@dimen/text_size1"
         style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:gravity="center"
         />
 
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/type_1"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/type_2"
             app:layout_constraintTop_toBottomOf="@id/tv_number"
             android:clickable="false"
             tools:text="green"
+            android:textSize="20sp"
+            android:background="@drawable/types_format"
+            android:padding="@dimen/min_margin"
+            android:gravity="center"
+            android:textColor="@color/black"
             />
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:id="@+id/type_2"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/type_1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_number"
             android:clickable="false"
             tools:text="fire"
+            android:textSize="20sp"
+            android:background="@drawable/types_format"
+            android:padding="@dimen/min_margin"
+            android:gravity="center"
+            android:textColor="@color/black"
             />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
