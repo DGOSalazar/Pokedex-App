@@ -1,8 +1,12 @@
 # Pokedex-App
 This is my pokedex created on Android Studio with kotlin, here you find:
--Desing pattern MVVM
--Dependency Injection with Dagger Hilt
--Api rest consume with Retrofit 2
+
+-Desing pattern MVVM 
+
+-Dependency Injection with Dagger Hilt 
+
+-Api rest consume with Retrofit 2 
+
 -Manage of database with SQLite through Room by android 
 
 if you like my pokedex I appreciate that give me one star they are free! xD
