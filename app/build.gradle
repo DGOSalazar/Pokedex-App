@@ -38,9 +38,9 @@ android {
 def lifecycle_version = "2.5.1"
 def nav_version = "2.5.3"
 def fragment_version = "1.5.5"
+def room_version = "2.4.3"
 
 dependencies {
-
     //NavigationComponent
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
@@ -50,13 +50,13 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
     //LifeCycle
     implementation"androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    // LiveData
+    //LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
-    // Activity
+    //Activity
     implementation "androidx.activity:activity-ktx:1.2.2"
     //Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.44")
@@ -71,6 +71,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     //Fragment
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
+    //progressView
+    implementation('com.github.skydoves:progressview:1.1.3')
+    //Room
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
     //Test
     testImplementation 'junit:junit:4.13.2'
     testImplementation "io.mockk:mockk:1.12.2"

@@ -13,7 +13,7 @@ class PokeService @Inject constructor(
 
     suspend fun getPokeListService(n:Int): PokemonList {
         return with(Dispatchers.IO){
-            val response = api.getPokemonList("?offset=${n}&limit=20")
+            val response = api.getPokemonList("?offset=${n}&limit=898")
             return response.body() ?: PokemonList()
         }
     }
@@ -23,10 +23,10 @@ class PokeService @Inject constructor(
             return response.body() ?: Pokemon()
         }
     }
-    //suspend fun getPokemonByNameService(name:String): Pokemon{
-    //    return with(Dispatchers.IO){
-    //        val response = api.getPokemon(name)
-    //        return response.body() ?: PokemonCache.pokemon
-    //    }
-    //}
+    suspend fun getPokemonByNameService(name:String): Pokemon{
+        return with(Dispatchers.IO){
+                    val response = api.getPokemon(name)
+                    return response.body() ?: Pokemon()
+                }
+            }
 }

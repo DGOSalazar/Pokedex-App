@@ -1,15 +1,16 @@
-package com.example.pokedex.pokemon_main.ui.view.adapter
+package com.example.pokedex.pokemon_main.ui.view.list_pokemon.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.R
 import com.example.pokedex.databinding.PokemonListContainerBinding
 import com.example.pokedex.pokemon_main.data.model.auxModel.Results
 
 class ListFragAdapter(var listPoke: MutableList<Results>,
-                      private var listener: OnClickAdapter)
+                      private var click : (Results)->Unit)
     :RecyclerView.Adapter<ListFragAdapter.ViewHolder>(){
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         private var mBinding = PokemonListContainerBinding.bind(view)
@@ -21,9 +22,9 @@ class ListFragAdapter(var listPoke: MutableList<Results>,
                 tvListId.text = (position+1).toString()
             }
         }
-        fun getNewPokemon(){
+        fun getNewPokemon(click:(Results)->Unit){
             mBinding.ivBack.setOnClickListener {
-                listener.onClick()
+                click(listPoke[adapterPosition])
             }
         }
     }
@@ -35,7 +36,7 @@ class ListFragAdapter(var listPoke: MutableList<Results>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int){
         with(holder) {
             setBind(position)
-            getNewPokemon()
+            getNewPokemon(click)
         }
     }
     override fun getItemCount(): Int = listPoke.size

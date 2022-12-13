@@ -14,6 +14,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.pokedex.R
 import com.example.pokedex.databinding.PokemonMainBinding
 import com.example.pokedex.pokemon_main.data.model.Pokemon
+import com.example.pokedex.pokemon_main.ui.view.list_pokemon.ListPokemonFragment
+import com.example.pokedex.pokemon_main.ui.view.my_pokemon.MyPokemonsFragment
 import com.example.pokedex.pokemon_main.ui.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,46 +24,76 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var mBinding : PokemonMainBinding
     private var pokemon: Pokemon = Pokemon()
-    private var nPokemon: Int=1
     private val mainViewModel: MainViewModel by viewModels()
+    private var imgCount =0
+    private var nPokemon: Int=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         mBinding=PokemonMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(mBinding.root)
 
+        //liveData
         mainViewModel.onCreate(nPokemon)
         mainViewModel.pokemon.observe(this, Observer {
             pokemon = it
+            nPokemon = pokemon.id
             printPokemon()
         })
+        mainViewModel.fab.observe(this, Observer {
+            mBinding.fabCapture.isVisible=it
+        })
+
+        //userClicks
         mBinding.previousPokemon.setOnClickListener{
             if(nPokemon==1) nPokemon else nPokemon--
             mainViewModel.onCreate(nPokemon)
         }
         mBinding.nextPokemon.setOnClickListener{
-            nPokemon++
+            if(nPokemon==893) nPokemon else nPokemon++
             mainViewModel.onCreate(nPokemon)
         }
         mBinding.mcMain.setOnClickListener{
+            imgCount++
             changeImg()
         }
         mBinding.listPokemon.setOnClickListener {
-            launchFragment()
+            launchFragmentList()
+        }
+        mBinding.fabCapture.setOnClickListener{
+            toastMessage(getString(R.string.CatchPokemon))
+        }
+        mBinding.ivFavorite.setOnClickListener{
+            launchFragmentFav()
         }
     }
-    private fun launchFragment() {
-        mBinding.fabCapture.hide()
+    private fun launchFragmentList() {
+        mainViewModel.setShowFab(false)
         mBinding.mcMain.isGone
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             addToBackStack("main")
-            add<ListFragment>(R.id.main_activity)
+            add<ListPokemonFragment>(R.id.main_activity)
+        }
+    }
+    private fun launchFragmentFav(){
+        mainViewModel.setShowFab(false)
+        mBinding.mcMain.isGone
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            addToBackStack("main")
+            add<MyPokemonsFragment>(R.id.main_activity)
         }
     }
     private fun changeImg() {
-        //mountImg(pokemon.sprites.backImg)
-        printPokemon()
+        when(imgCount){
+            1 -> mountImg(pokemon.sprites.backImg)
+            2 -> mountImg(pokemon.sprites.shinyImg)
+            3 -> {
+                mountImg(pokemon.sprites.frontImg)
+                imgCount=0
+            }
+        }
     }
     private fun printPokemon() {
         mountImg(pokemon.sprites.frontImg)
@@ -69,12 +101,20 @@ class MainActivity : AppCompatActivity() {
             tvName.text=pokemon.name.capitalize()
             tvNumber.text=("#${pokemon.id}")
             showTypes()
-            tvHp.text=("${pokemon.stats[0].stat.name}: ${pokemon.stats[0].baseStat}")
-            tvAttack.text=("${pokemon.stats[1].stat.name}: ${pokemon.stats[1].baseStat}")
-            tvDefense.text=("${pokemon.stats[2].stat.name}: ${pokemon.stats[2].baseStat}")
-            tvSpeed.text=("${pokemon.stats[5].stat.name}: ${pokemon.stats[5].baseStat}")
-            //tvHeight.text=("Height: ${pokemon.height}")
-            //tvWeight.text=("Weight: ${pokemon.weight}")
+            tvHp.text=pokemon.stats[0].stat.name
+            progressHp.progress = pokemon.stats[0].baseStat.toFloat()
+            progressHp.labelText = pokemon.stats[0].baseStat.toString()
+            tvAttack.text=pokemon.stats[1].stat.name
+            progressAttack.progress = pokemon.stats[1].baseStat.toFloat()
+            progressAttack.labelText = pokemon.stats[1].baseStat.toString()
+            tvDefense.text=pokemon.stats[2].stat.name
+            progressDefense.progress = pokemon.stats[2].baseStat.toFloat()
+            progressDefense.labelText = pokemon.stats[2].baseStat.toString()
+            tvSpeed.text=pokemon.stats[5].stat.name
+            progressSpeed.progress = pokemon.stats[5].baseStat.toFloat()
+            progressSpeed.labelText = pokemon.stats[5].baseStat.toString()
+            tvHeight.text=("Height: ${pokemon.height}")
+            tvWeight.text=("Weight: ${pokemon.weight}")
         }
     }
     private fun showTypes() {

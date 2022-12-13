@@ -1,9 +1,11 @@
 package com.example.pokedex.pokemon_main.ui.viewModel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedex.pokemon_main.data.model.Pokemon
+import com.example.pokedex.pokemon_main.data.model.PokemonFav
 import com.example.pokedex.pokemon_main.data.model.PokemonList
 import com.example.pokedex.pokemon_main.domain.GetListPokemonUseCase
 import com.example.pokedex.pokemon_main.domain.GetPokemonByIdUseCase
@@ -20,6 +22,8 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     var pokemon = MutableLiveData<Pokemon>()
     val pokemonList = MutableLiveData<PokemonList>()
+    val fab = MutableLiveData<Boolean>()
+    val pokemonsFav= MutableLiveData<List<PokemonFav>>()
 
     fun onCreate(n:Int){
         viewModelScope.launch {
@@ -27,10 +31,34 @@ class MainViewModel @Inject constructor(
             pokemon.postValue(resultMain)
         }
     }
-    fun onShowList(n:Int=0){
+    fun onSelectPokemon(name:String){
         viewModelScope.launch {
+            val resultMain = getPokemonByNameUseCase(name)
+            pokemon.postValue(resultMain)
+        }
+    }
+    fun onShowList(n:Int=0){
+        viewModelScope.launch{
             val resultList = getListPokemonUseCase(n)
             pokemonList.postValue(resultList)
         }
+    }
+    fun setShowFab(isVisible : Boolean){
+        fab.value = isVisible
+    }
+    fun showFab():LiveData<Boolean>{
+        return fab
+    }
+    fun getMyPokemon(){
+        val pokemonFav: List<PokemonFav> =
+            listOf(PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""),
+                PokemonFav(12,"Pikachu","11/12/1998",""))
+        pokemonsFav.postValue(pokemonFav)
     }
 }

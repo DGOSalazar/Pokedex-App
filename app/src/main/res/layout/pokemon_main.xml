@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".pokemon_main.ui.view.MainActivity"
     android:background="@color/purple_700">
-
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/mc_main"
             android:layout_width="match_parent"
@@ -17,21 +16,21 @@
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_pokeball"
             android:clickable="true"
+            android:backgroundTint="@color/purple_200"
             />
-
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_number"
-        app:layout_constraintTop_toBottomOf="@id/mc_main"
+        app:layout_constraintTop_toTopOf="@id/mc_main"
         tools:text="Pokemon"
-        android:textColor="@color/white"
         android:layout_margin="@dimen/min_margin"
         android:layout_marginLeft="@dimen/min_margin"
-        android:textSize="@dimen/text_size1"
-        style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
+        android:textColor="@color/black_title"
+        android:textSize="@dimen/text_sizeCap"
+        style="@style/TextAppearance.AppCompat.Title"
         android:gravity="center"
         />
     <TextView
@@ -40,14 +39,14 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/tv_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mc_main"
+        app:layout_constraintTop_toTopOf="@id/mc_main"
         tools:text="#001"
-        android:textColor="@color/white"
         android:layout_margin="@dimen/min_margin"
         android:layout_marginRight="@dimen/min_margin"
-        android:textSize="@dimen/text_size1"
-        style="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-        android:gravity="center"
+        android:textSize="@dimen/text_sizeCap"
+        android:textColor="@color/black_title"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:gravity="end"
         />
 
         <TextView
@@ -56,7 +55,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/type_2"
-            app:layout_constraintTop_toBottomOf="@id/tv_number"
+            app:layout_constraintBottom_toBottomOf="@id/mc_main"
             android:clickable="false"
             tools:text="green"
             android:textSize="20sp"
@@ -64,6 +63,7 @@
             android:padding="@dimen/min_margin"
             android:gravity="center"
             android:textColor="@color/black"
+            android:layout_marginBottom="@dimen/regular_margin"
             />
         <TextView
             android:id="@+id/type_2"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toEndOf="@id/type_1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_number"
+            app:layout_constraintBottom_toBottomOf="@id/mc_main"
             android:clickable="false"
             tools:text="fire"
             android:textSize="20sp"
@@ -79,13 +79,14 @@
             android:padding="@dimen/min_margin"
             android:gravity="center"
             android:textColor="@color/black"
+            android:layout_marginBottom="@dimen/regular_margin"
             />
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/type_1"
+            app:layout_constraintTop_toBottomOf="@id/mc_main"
             app:layout_constraintBottom_toTopOf="@id/map_bar">
             <TextView
                 android:id="@+id/tv_title_stats"
@@ -101,6 +102,7 @@
                 android:layout_margin="@dimen/min_margin"
                 android:textColor="@color/white"
                 />
+
             <TextView
                 android:id="@+id/wrap"
                 android:layout_width="300dp"
@@ -113,55 +115,137 @@
                 android:textColor="@color/white" />
             <TextView
                 android:id="@+id/tv_hp"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="Hp:"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/progress_hp"
                 app:layout_constraintTop_toBottomOf="@id/wrap"
                 app:layout_constraintBottom_toTopOf="@id/tv_attack"
                 android:layout_marginLeft="@dimen/min_margin"
                 android:textColor="@color/white"
+                android:textSize="@dimen/subtitle_stats"
                 android:gravity="center"
-                android:textSize="@dimen/subtitle_stats" />
+                android:layout_marginStart="@dimen/regular_margin"/>
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/progress_hp"
+                android:layout_width="250dp"
+                android:layout_height="20dp"
+                app:layout_constraintStart_toEndOf="@id/tv_hp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/wrap"
+                app:layout_constraintBottom_toTopOf="@id/tv_attack"
+                app:progressView_colorBackground="@color/white"
+                app:progressView_colorProgress="@android:color/holo_green_dark"
+                app:progressView_labelColorInner="@color/white"
+                app:progressView_labelColorOuter="@color/black"
+                app:progressView_labelSize="12sp"
+                app:progressView_labelText="hp"
+                app:progressView_progress="50"
+                app:progressView_progressFromPrevious="true"
+                app:progressView_min="15"
+                app:progressView_max="100"
+                app:progressView_radius="40dp"/>
             <TextView
                 android:id="@+id/tv_attack"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="Attack:"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
                 app:layout_constraintTop_toBottomOf="@id/tv_hp"
                 app:layout_constraintBottom_toTopOf="@id/tv_defense"
+                app:layout_constraintEnd_toEndOf="@id/tv_hp"
                 android:layout_marginLeft="@dimen/min_margin"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textSize="@dimen/subtitle_stats"
                 />
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/progress_attack"
+                android:layout_width="250dp"
+                android:layout_height="20dp"
+                app:layout_constraintStart_toEndOf="@id/tv_attack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_hp"
+                app:layout_constraintBottom_toTopOf="@id/tv_defense"
+                app:progressView_colorBackground="@color/white"
+                app:progressView_colorProgress="@android:color/holo_red_dark"
+                app:progressView_labelColorInner="@color/white"
+                app:progressView_labelColorOuter="@color/black"
+                app:progressView_labelSize="12sp"
+                app:progressView_labelText="hp"
+                app:progressView_progress="50"
+                app:progressView_min="15"
+                app:progressView_max="100"
+                app:progressView_progressFromPrevious="true"
+                app:progressView_radius="40dp"/>
             <TextView
                 android:id="@+id/tv_defense"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="Defense:"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
                 app:layout_constraintBottom_toTopOf="@id/tv_speed"
                 app:layout_constraintTop_toBottomOf="@id/tv_attack"
                 android:layout_marginLeft="@dimen/min_margin"
+                app:layout_constraintEnd_toEndOf="@id/tv_hp"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textSize="@dimen/subtitle_stats"
                 />
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/progress_defense"
+                android:layout_width="250dp"
+                android:layout_height="20dp"
+                app:layout_constraintStart_toEndOf="@id/tv_defense"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_attack"
+                app:layout_constraintBottom_toTopOf="@id/tv_speed"
+                app:progressView_colorBackground="@color/white"
+                app:progressView_colorProgress="@android:color/holo_blue_dark"
+                app:progressView_labelColorInner="@color/white"
+                app:progressView_labelColorOuter="@color/black"
+                app:progressView_labelSize="12sp"
+                app:progressView_labelText="hp"
+                app:progressView_progress="50"
+                app:progressView_min="15"
+                app:progressView_max="100"
+                app:progressView_progressFromPrevious="true"
+                app:progressView_radius="40dp"/>
             <TextView
                 android:id="@+id/tv_speed"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:text="Speed:"
                 style="@android:style/TextAppearance.DeviceDefault.Large"
                 app:layout_constraintBottom_toTopOf="@id/tv_height"
                 app:layout_constraintTop_toBottomOf="@id/tv_defense"
+                app:layout_constraintEnd_toEndOf="@id/tv_hp"
                 android:layout_marginLeft="@dimen/min_margin"
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textSize="@dimen/subtitle_stats"
                 />
+            <com.skydoves.progressview.ProgressView
+                android:id="@+id/progress_speed"
+                android:layout_width="250dp"
+                android:layout_height="20dp"
+                app:layout_constraintStart_toEndOf="@id/tv_defense"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_defense"
+                app:layout_constraintBottom_toTopOf="@id/tv_height"
+                app:progressView_colorBackground="@color/white"
+                app:progressView_colorProgress="@android:color/holo_red_light"
+                app:progressView_labelColorInner="@color/white"
+                app:progressView_labelColorOuter="@color/black"
+                app:progressView_labelSize="12sp"
+                app:progressView_labelText="hp"
+                app:progressView_progress="50"
+                app:progressView_min="15"
+                app:progressView_max="100"
+                app:progressView_progressFromPrevious="true"
+                app:progressView_radius="40dp"/>
             <TextView
                 android:id="@+id/tv_height"
                 android:layout_width="0dp"
@@ -190,6 +274,7 @@
                 tools:text="weight: 21"
                 android:textColor="@color/white"
                 android:textSize="@dimen/subtitle_stats"
+                android:layout_marginEnd="30dp"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -202,7 +287,9 @@
         app:layout_constraintTop_toBottomOf="@id/tv_height"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:ignore="BottomAppBar,NotSibling"
-        style="@style/Widget.AppCompat.Button.Borderless.Colored">
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:backgroundTint="@color/purple_500"
+        >
         <ImageView
             android:id="@+id/listPokemon"
             android:layout_width="wrap_content"
@@ -231,6 +318,7 @@
             android:clickable="true"
             />
         <ImageView
+            android:id="@+id/iv_favorite"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@drawable/ic_my_team_1"

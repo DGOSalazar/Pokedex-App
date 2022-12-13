@@ -1,4 +1,4 @@
-package com.example.pokedex.pokemon_main.ui.view
+package com.example.pokedex.pokemon_main.ui.view.list_pokemon
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.pokedex.databinding.FragmentListBinding
 import com.example.pokedex.pokemon_main.data.model.PokemonList
 import com.example.pokedex.pokemon_main.data.model.auxModel.Results
-import com.example.pokedex.pokemon_main.ui.view.adapter.ListFragAdapter
-import com.example.pokedex.pokemon_main.ui.view.adapter.OnClickAdapter
+import com.example.pokedex.pokemon_main.ui.view.MainActivity
+import com.example.pokedex.pokemon_main.ui.view.list_pokemon.adapter.ListFragAdapter
 import com.example.pokedex.pokemon_main.ui.viewModel.MainViewModel
 
 
-class ListFragment : Fragment(),OnClickAdapter {
+class ListPokemonFragment : Fragment() {
 
     private lateinit var mAdapter : ListFragAdapter
     private lateinit var mBinding: FragmentListBinding
@@ -28,6 +28,7 @@ class ListFragment : Fragment(),OnClickAdapter {
         super.onCreate(savedInstanceState)
         mainViewModel=ViewModelProvider(requireActivity())
             .get(MainViewModel::class.java)
+
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +39,7 @@ class ListFragment : Fragment(),OnClickAdapter {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
         mAdapter = ListFragAdapter(pokeList.results as MutableList<Results>
-            ,this)
+        ) { click(it) }
         mainViewModel.onShowList()
         mainViewModel.pokemonList.observe(viewLifecycleOwner, Observer {
             pokeList=it
@@ -52,11 +53,18 @@ class ListFragment : Fragment(),OnClickAdapter {
             adapter=mAdapter
         }
     }
-    override fun onClick(){
-        mActivity?.onBackPressed()
+    private fun click(results: Results){
+        //var intent = Intent(mBinding.root.context, MainActivity::class.java)
+        //startActivity(intent)
+        mainViewModel.onSelectPokemon(results.name)
+        //mBinding.fragmentContainer.isGone
+        onDestroyView()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
     override fun onDestroy(){
-        setHasOptionsMenu(false)
+        mainViewModel.setShowFab(true)
         super.onDestroy()
     }
 }

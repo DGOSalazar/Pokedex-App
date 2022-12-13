@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pokemon_main.ui.view.ListFragment"
+    tools:context=".pokemon_main.ui.view.list_pokemon.ListPokemonFragment"
     android:background="@android:color/white">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
