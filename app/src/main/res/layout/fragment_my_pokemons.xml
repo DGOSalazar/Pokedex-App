@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".pokemon_main.ui.view.my_pokemon.MyPokemonsFragment"
+    tools:context=".pokemon_main.ui.view.MyPokemonsFragment"
     android:background="@color/purple_700">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"

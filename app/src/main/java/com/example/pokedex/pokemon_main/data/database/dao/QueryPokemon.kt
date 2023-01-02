@@ -1,24 +1,19 @@
 package com.example.pokedex.pokemon_main.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.pokedex.pokemon_main.data.database.entities.QuotePokemon
-import com.example.pokedex.pokemon_main.data.model.PokemonFav
 
 @Dao
 interface QueryPokemon {
-    @Query("Select * from quotePokemon_table")
+    @Query("Select * from quotePokemon_table LIMIT 8")
     suspend fun getMyTeam(): List<QuotePokemon>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun setMyTeam(pokemonFav: QuotePokemon)
 
-    @Delete
-    suspend fun deleteMyAllTeam(pokemonFavs: List<QuotePokemon>)
+    @Query("Delete from quotePokemon_table WHERE id = '0'+:id")
+    suspend fun deletePokemon(id: Int)
 
-    @Delete
-    suspend fun deleteOneOfMyTeam(pokemonFav: QuotePokemon)
+    @Query("Update quotePokemon_table set name=:name where id=:id")
+    suspend fun changePokeName(id:Int, name:String)
 }

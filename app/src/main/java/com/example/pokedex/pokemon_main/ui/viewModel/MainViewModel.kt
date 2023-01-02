@@ -1,15 +1,14 @@
 package com.example.pokedex.pokemon_main.ui.viewModel
 
-import androidx.lifecycle.LiveData
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pokedex.pokemon_main.data.model.Pokemon
-import com.example.pokedex.pokemon_main.data.model.PokemonFav
-import com.example.pokedex.pokemon_main.data.model.PokemonList
-import com.example.pokedex.pokemon_main.domain.GetListPokemonUseCase
-import com.example.pokedex.pokemon_main.domain.GetPokemonByIdUseCase
-import com.example.pokedex.pokemon_main.domain.GetPokemonByNameUseCase
+import com.example.pokedex.pokemon_main.domain.*
+import com.example.pokedex.pokemon_main.domain.models.PokeFav
+import com.example.pokedex.pokemon_main.domain.models.PokeList
+import com.example.pokedex.pokemon_main.domain.models.Pokemon
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,23 +17,49 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
      private val getListPokemonUseCase: GetListPokemonUseCase,
      private val getPokemonByIdUseCase: GetPokemonByIdUseCase,
-     private val getPokemonByNameUseCase: GetPokemonByNameUseCase
+     private val getPokemonByNameUseCase: GetPokemonByNameUseCase,
+     private val getFavoritesPokemon: GetFavoritesPokemon,
+     private val setPokemonFavorite: SetPokemonFavorite,
+     private val getFreePokemonUseCase: GetFreePokemonUseCase,
+     private val changePokemonNameUseCase: ChangePokemonNameUseCase
 ) : ViewModel() {
-    var pokemon = MutableLiveData<Pokemon>()
-    val pokemonList = MutableLiveData<PokemonList>()
-    val fab = MutableLiveData<Boolean>()
-    val pokemonsFav= MutableLiveData<List<PokemonFav>>()
+    var pokemonApi = MutableLiveData<Pokemon>()
+    var pokemonList = MutableLiveData<PokeList>()
+    var pokemonFav= MutableLiveData<List<PokeFav>>()
+    var fab = MutableLiveData<Boolean>()
+    var n=1;
 
-    fun onCreate(n:Int){
+    fun onLaunchApp(){
         viewModelScope.launch {
             val resultMain = getPokemonByIdUseCase(n)
-            pokemon.postValue(resultMain)
+            pokemonApi.postValue(resultMain)
+        }
+    }
+    fun nextPokemon(){
+        if(n==1000) n else n++
+        onLaunchApp()
+    }
+    fun previousPokemon(){
+        if(n==1) n else n--
+        onLaunchApp()
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun capturePokemon(pokemon: Pokemon){
+        viewModelScope.launch {
+            setPokemonFavorite(pokemon)
+        }
+    }
+    fun getMyPokemon() {
+        viewModelScope.launch {
+            val pokeFav = getFavoritesPokemon()
+            pokemonFav.postValue(pokeFav)
         }
     }
     fun onSelectPokemon(name:String){
         viewModelScope.launch {
             val resultMain = getPokemonByNameUseCase(name)
-            pokemon.postValue(resultMain)
+            n=resultMain.id
+            onLaunchApp()
         }
     }
     fun onShowList(n:Int=0){
@@ -43,22 +68,18 @@ class MainViewModel @Inject constructor(
             pokemonList.postValue(resultList)
         }
     }
+    fun changePokeName(id: Long, name: String){
+        viewModelScope.launch {
+            changePokemonNameUseCase(id,name)
+        }
+    }
     fun setShowFab(isVisible : Boolean){
         fab.value = isVisible
     }
-    fun showFab():LiveData<Boolean>{
-        return fab
-    }
-    fun getMyPokemon(){
-        val pokemonFav: List<PokemonFav> =
-            listOf(PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""),
-                PokemonFav(12,"Pikachu","11/12/1998",""))
-        pokemonsFav.postValue(pokemonFav)
+    fun letPokemonFree(id:Long){
+        viewModelScope.launch {
+            getFreePokemonUseCase(id)
+            getMyPokemon()
+        }
     }
 }

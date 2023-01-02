@@ -1,50 +1,44 @@
-package com.example.pokedex.pokemon_main.ui.view.list_pokemon
+package com.example.pokedex.pokemon_main.ui.view
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.pokedex.R
 import com.example.pokedex.databinding.FragmentListBinding
-import com.example.pokedex.pokemon_main.data.model.PokemonList
-import com.example.pokedex.pokemon_main.data.model.auxModel.Results
-import com.example.pokedex.pokemon_main.ui.view.MainActivity
-import com.example.pokedex.pokemon_main.ui.view.list_pokemon.adapter.ListFragAdapter
+import com.example.pokedex.pokemon_main.data.network.model.auxModel.Results
+import com.example.pokedex.pokemon_main.domain.models.PokeList
+import com.example.pokedex.pokemon_main.ui.view.adapters.ListFragAdapter
 import com.example.pokedex.pokemon_main.ui.viewModel.MainViewModel
 
 
-class ListPokemonFragment : Fragment() {
+class ListPokemonFragment : Fragment(R.layout.fragment_list) {
 
     private lateinit var mAdapter : ListFragAdapter
     private lateinit var mBinding: FragmentListBinding
-    private var mActivity : MainActivity? = null
-    var pokeList: PokemonList = PokemonList()
-    private lateinit var mainViewModel: MainViewModel
+    private var pokeList: PokeList = PokeList()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mainViewModel=ViewModelProvider(requireActivity())
-            .get(MainViewModel::class.java)
-
-    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         mBinding = FragmentListBinding.inflate(inflater,container,false)
         return mBinding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?){
         super.onViewCreated(view, savedInstanceState)
-        mAdapter = ListFragAdapter(pokeList.results as MutableList<Results>
-        ) { click(it) }
+
         mainViewModel.onShowList()
-        mainViewModel.pokemonList.observe(viewLifecycleOwner, Observer {
+        mainViewModel.pokemonList.observe(viewLifecycleOwner) {
             pokeList=it
             setAdapter(pokeList.results)
-        })
+        }
+        mAdapter = ListFragAdapter(pokeList.results)
+        { click(it) }
     }
     private fun setAdapter(pokeList: List<Results>){
         mAdapter.setData(pokeList)
@@ -54,14 +48,8 @@ class ListPokemonFragment : Fragment() {
         }
     }
     private fun click(results: Results){
-        //var intent = Intent(mBinding.root.context, MainActivity::class.java)
-        //startActivity(intent)
         mainViewModel.onSelectPokemon(results.name)
-        //mBinding.fragmentContainer.isGone
-        onDestroyView()
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
+        findNavController().navigate(R.id.action_listPokemonFragment_to_mainFragment)
     }
     override fun onDestroy(){
         mainViewModel.setShowFab(true)

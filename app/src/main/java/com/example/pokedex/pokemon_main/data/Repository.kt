@@ -1,29 +1,47 @@
 package com.example.pokedex.pokemon_main.data
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.pokedex.pokemon_main.data.database.dao.QueryPokemon
 import com.example.pokedex.pokemon_main.data.database.entities.QuotePokemon
-import com.example.pokedex.pokemon_main.data.model.Pokemon
-import com.example.pokedex.pokemon_main.data.model.PokemonList
+import com.example.pokedex.pokemon_main.data.database.entities.toDomain
+import com.example.pokedex.pokemon_main.data.network.model.PokemonApi
+import com.example.pokedex.pokemon_main.data.network.model.PokemonList
 import com.example.pokedex.pokemon_main.data.network.PokeService
+import com.example.pokedex.pokemon_main.domain.models.PokeFav
+import com.example.pokedex.pokemon_main.domain.models.PokeList
+import com.example.pokedex.pokemon_main.domain.models.Pokemon
+import com.example.pokedex.pokemon_main.domain.models.toDomain
 import javax.inject.Inject
 
 class Repository @Inject constructor(
     private val api : PokeService,
     private val dao : QueryPokemon
 ){
-    suspend fun getPokemonList(n:Int): PokemonList {
-        return api.getPokeListService(n)
+    suspend fun getPokemonList(n:Int): PokeList {
+        val response = api.getPokeListService(n)
+        return response.toDomain()
     }
     suspend fun getPokemonById(n:Int): Pokemon {
-        return api.getPokemonByIdService(n)
+        val response= api.getPokemonByIdService(n)
+        return response.toDomain()
     }
     suspend fun getPokemonByName(name: String): Pokemon {
-        return api.getPokemonByNameService(name)
+        val response=api.getPokemonByNameService(name)
+        return response.toDomain()
     }
-    suspend fun getPokemonFavAll():List<QuotePokemon>{
-        return dao.getMyTeam()
+    suspend fun getPokemonFav():List<PokeFav>{
+        val response = dao.getMyTeam()
+        return response.map { it.toDomain() }
     }
-    suspend fun insertPokemonFav(quotePokemon: QuotePokemon){
-        dao.setMyTeam(quotePokemon)
+    @RequiresApi(Build.VERSION_CODES.O)
+    suspend fun insertPokemonFav(pokemon: Pokemon){
+        dao.setMyTeam(pokemon.toDomain())
+    }
+    suspend fun deletePokemon(id:Long){
+        dao.deletePokemon(id.toInt())
+    }
+    suspend fun changePokeName(id: Long,name: String){
+        dao.changePokeName(id.toInt(),name)
     }
 }

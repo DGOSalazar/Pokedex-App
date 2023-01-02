@@ -40,6 +40,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_date"
+                android:layout_marginBottom="@dimen/regular_margin"
                 android:gravity="center"
                 />
             <TextView
@@ -49,12 +50,11 @@
                 android:layout_height="wrap_content"
                 tools:text="01/09/2022"
                 android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_id"
                 app:layout_constraintStart_toEndOf="@id/tv_id"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:gravity="center"
                 />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 

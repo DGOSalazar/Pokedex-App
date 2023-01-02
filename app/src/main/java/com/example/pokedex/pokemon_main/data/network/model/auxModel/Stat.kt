@@ -1,4 +1,4 @@
-package com.example.pokedex.pokemon_main.data.model.auxModel
+package com.example.pokedex.pokemon_main.data.network.model.auxModel
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,20 +1,21 @@
-package com.example.pokedex.pokemon_main.ui.view.list_pokemon.adapter
+package com.example.pokedex.pokemon_main.ui.view.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedex.R
 import com.example.pokedex.databinding.PokemonListContainerBinding
-import com.example.pokedex.pokemon_main.data.model.auxModel.Results
+import com.example.pokedex.pokemon_main.data.network.model.auxModel.Results
 
-class ListFragAdapter(var listPoke: MutableList<Results>,
+class ListFragAdapter(var listPoke: List<Results>,
                       private var click : (Results)->Unit)
     :RecyclerView.Adapter<ListFragAdapter.ViewHolder>(){
     inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
         private var mBinding = PokemonListContainerBinding.bind(view)
 
+        @SuppressLint("SetTextI18n")
         fun setBind(position: Int){
             with(mBinding){
                 tvListName.text = listPoke[position].name
@@ -23,7 +24,7 @@ class ListFragAdapter(var listPoke: MutableList<Results>,
             }
         }
         fun getNewPokemon(click:(Results)->Unit){
-            mBinding.ivBack.setOnClickListener {
+            mBinding.root.setOnClickListener {
                 click(listPoke[adapterPosition])
             }
         }
@@ -42,6 +43,6 @@ class ListFragAdapter(var listPoke: MutableList<Results>,
     override fun getItemCount(): Int = listPoke.size
 
     fun setData(pokemonList: List<Results>){
-        this.listPoke = pokemonList as MutableList<Results>
+        this.listPoke = pokemonList
     }
 }

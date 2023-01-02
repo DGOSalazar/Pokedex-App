@@ -4,5 +4,10 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="CatchPokemon">Catch it!</string>
+    <string name="what_do">What do you want to do?</string>
+    <string name="mssg_alert">Please select the option that go on with youre need</string>
+    <string name="let_free">Let Free</string>
+    <string name="it_ok">Cancel</string>
+    <string name="change_ap">Put a mote</string>
 
 </resources>

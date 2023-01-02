@@ -1,4 +1,4 @@
-package com.example.pokedex.pokemon_main.data.model.auxModel
+package com.example.pokedex.pokemon_main.data.network.model.auxModel
 
 import com.google.gson.annotations.SerializedName
 
@@ -7,4 +7,5 @@ data class Moves(@SerializedName("move")var move : Results,
 
 data class Vgd(@SerializedName("level_learned_at")var levelLearn: Int=0,
                @SerializedName("move_learn_method")var moveLearn: Results,
-               @SerializedName("version_group")var versionGroup : Results)
+               @SerializedName("version_group")var versionGroup : Results
+)

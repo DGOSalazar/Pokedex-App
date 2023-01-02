@@ -2,8 +2,8 @@ package com.example.pokedex.pokemon_main.data.network
 
 
 
-import com.example.pokedex.pokemon_main.data.model.Pokemon
-import com.example.pokedex.pokemon_main.data.model.PokemonList
+import com.example.pokedex.pokemon_main.data.network.model.PokemonApi
+import com.example.pokedex.pokemon_main.data.network.model.PokemonList
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
 
@@ -17,16 +17,16 @@ class PokeService @Inject constructor(
             return response.body() ?: PokemonList()
         }
     }
-    suspend fun getPokemonByIdService(n:Int): Pokemon {
+    suspend fun getPokemonByIdService(n:Int): PokemonApi {
         return with(Dispatchers.IO){
             val response = api.getPokemon(n.toString())
-            return response.body() ?: Pokemon()
+            return response.body() ?: PokemonApi()
         }
     }
-    suspend fun getPokemonByNameService(name:String): Pokemon{
+    suspend fun getPokemonByNameService(name:String): PokemonApi {
         return with(Dispatchers.IO){
                     val response = api.getPokemon(name)
-                    return response.body() ?: Pokemon()
+                    return response.body() ?: PokemonApi()
                 }
             }
 }
